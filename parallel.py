@@ -67,8 +67,9 @@ def parallel_k_means(X, k, max_iters=100):
     # Gather labels from each process
     all_labels = None
     comm.Barrier()
+    labels_local = labels_local.astype(np.int32)  # ensure int32
     if rank == 0:
-        all_labels = np.empty(num_points, dtype=int)
+        all_labels = np.empty(num_points, dtype=np.int32)
     comm.Gatherv(labels_local, (all_labels, counts, starts, MPI.INT), root=0)
 
     if rank == 0:
