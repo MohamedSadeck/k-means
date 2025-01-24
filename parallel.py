@@ -1,5 +1,6 @@
 from mpi4py import MPI
 import numpy as np
+import matplotlib.pyplot as plt
 
 def parallel_k_means(X, k, max_iters=100):
     comm = MPI.COMM_WORLD
@@ -75,6 +76,10 @@ def parallel_k_means(X, k, max_iters=100):
     if rank == 0:
         print("[Rank 0] Final centroids:\n", centroids)
         print("[Rank 0] Final labels:\n", all_labels)
+        plt.scatter(X[:, 0], X[:, 1], c=all_labels)
+        plt.scatter(centroids[:, 0], centroids[:, 1], c='red', marker='x')
+        plt.title("Final clustering result")
+        plt.show()
     return centroids
 
 if __name__ == "__main__":
