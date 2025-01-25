@@ -79,9 +79,11 @@ def k_means(X, k, max_iters=100):
 if __name__ == "__main__":
     # Generate some sample data
     np.random.seed(42)
-    X = np.vstack((np.random.randn(100, 2) + np.array([4, 4]),
-                   np.random.randn(100, 2) + np.array([-4, -4]),
-                   np.random.randn(100, 2)))
+    X = np.vstack((
+        np.random.randn(400, 2)*2 + np.array([3, 3]),
+        np.random.randn(400, 2)*2 + np.array([-2, -2]),
+        np.random.randn(400, 2)*2
+    ))
 
     # Perform k-means clustering
     k = 3
