@@ -1,5 +1,4 @@
 import numpy as np
-import time
 import matplotlib.pyplot as plt
 
 def initialize_centroids(X, k):
@@ -52,7 +51,6 @@ def show_snapshots():
     plt.show()
 
 def k_means(X, k, max_iters=100):
-    start_time = time.time()
     # Initialize centroids
     centroids = initialize_centroids(X, k)
     
@@ -71,8 +69,6 @@ def k_means(X, k, max_iters=100):
         # Check for convergence
         if np.all(centroids == old_centroids):
             break
-    
-    print(f"Elapsed time: {time.time() - start_time:.4f} seconds")
     return centroids, labels
 
 # Example usage
@@ -80,15 +76,14 @@ if __name__ == "__main__":
     # Generate some sample data
     np.random.seed(42)
     X = np.vstack((
-        np.random.randn(400, 2)*2 + np.array([3, 3]),
-        np.random.randn(400, 2)*2 + np.array([-2, -2]),
-        np.random.randn(400, 2)*2
+        np.random.randn(200, 2)*2 + np.array([3, 3]),
+        np.random.randn(200, 2)*2 + np.array([-2, -2]),
+        np.random.randn(200, 2)*2
     ))
 
     # Perform k-means clustering
     k = 3
     centroids, labels = k_means(X, k)
-
     print("Final centroids:\n", centroids)
     print("Labels:\n", labels)
     

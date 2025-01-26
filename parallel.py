@@ -1,10 +1,8 @@
 from mpi4py import MPI
 import numpy as np
 import matplotlib.pyplot as plt
-import time
 
 def parallel_k_means(X, k, max_iters=100):
-    start_time = time.time()
 
     comm = MPI.COMM_WORLD
     rank = comm.Get_rank()
@@ -64,7 +62,7 @@ def parallel_k_means(X, k, max_iters=100):
             for i in range(k):
                 if global_counts[i] > 0:
                     centroids[i] = global_sums[i] / global_counts[i]
-            print(f"[Rank {rank}] Iteration {iteration} updated centroids:\n", centroids)
+            # print(f"[Rank {rank}] Iteration {iteration} updated centroids:\n", centroids)
             if np.allclose(centroids, old_centroids, rtol=1e-6):
                 break
 
@@ -82,7 +80,6 @@ def parallel_k_means(X, k, max_iters=100):
     if rank == 0:
         print("[Rank 0] Final centroids:\n", centroids)
         print("[Rank 0] Final labels:\n", all_labels)
-        print(f"Elapsed time: {time.time() - start_time:.4f} seconds")
         plt.scatter(X[:, 0], X[:, 1], c=all_labels)
         plt.scatter(centroids[:, 0], centroids[:, 1], c='red', marker='x')
         plt.title("Final clustering result")
@@ -96,9 +93,9 @@ if __name__ == "__main__":
     if rank == 0:
         np.random.seed(42)
         X = np.vstack((
-            np.random.randn(400, 2)*2 + np.array([3, 3]),
-            np.random.randn(400, 2)*2 + np.array([-2, -2]),
-            np.random.randn(400, 2)*2
+            np.random.randn(200, 2)*2 + np.array([3, 3]),
+            np.random.randn(200, 2)*2 + np.array([-2, -2]),
+            np.random.randn(200, 2)*2
         ))
     else:
         X = None
